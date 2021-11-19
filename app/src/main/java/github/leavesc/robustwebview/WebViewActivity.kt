@@ -3,6 +3,7 @@ package github.leavesc.robustwebview
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import github.leavesc.robustwebview.base.RobustWebView
@@ -30,9 +31,12 @@ class WebViewActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvProgress)
     }
 
-    private val url1 = "http://tieba.baidu.com/favicon.ico"
+    private val url1 =
+        "https://p26-passport.byteacctimg.com/img/user-avatar/6019f80db5be42d33c31c98adaf3fa8c~300x300.image"
 
     private val url2 = "https://juejin.cn/user/923245496518439/posts"
+
+    private val url3 = "https://www.bilibili.com/"
 
     private lateinit var webView: RobustWebView
 
@@ -55,7 +59,8 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         webView = WebViewCacheHolder.acquireWebViewInternal(this)
         webView.webViewListener = webViewListener
-        rootLayout.addView(webView)
+        val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        rootLayout.addView(webView, layoutParams)
         findViewById<View>(R.id.tvBack).setOnClickListener {
             onBackPressed()
         }
@@ -64,6 +69,9 @@ class WebViewActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.btnOpenUrl2).setOnClickListener {
             webView.loadUrl(url2)
+        }
+        findViewById<View>(R.id.btnOpenUrl3).setOnClickListener {
+            webView.loadUrl(url3)
         }
         findViewById<View>(R.id.btnReload).setOnClickListener {
             webView.reload()

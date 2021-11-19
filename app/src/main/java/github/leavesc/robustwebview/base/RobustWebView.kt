@@ -178,7 +178,7 @@ class RobustWebView(context: Context, attributeSet: AttributeSet? = null) :
     private fun initWebViewSettings(webView: WebView) {
         val settings = webView.settings
 
-        settings.userAgentString = "android-leavesC"
+//        settings.userAgentString = "android-leavesC"
 
         settings.javaScriptEnabled = true
         settings.pluginsEnabled = true

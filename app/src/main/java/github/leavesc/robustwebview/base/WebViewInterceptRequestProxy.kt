@@ -1,7 +1,6 @@
 package github.leavesc.robustwebview.base
 
 import android.app.Application
-import android.net.Uri
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
@@ -45,30 +44,35 @@ object WebViewInterceptRequestProxy {
     }
 
     fun shouldInterceptRequest(webResourceRequest: WebResourceRequest?): WebResourceResponse? {
-        if (webResourceRequest == null || webResourceRequest.isForMainFrame) {
-            return null
-        }
-        val url = webResourceRequest.url ?: return null
-        if (isHttpUrl(url)) {
-            return getHttpResource(url.toString(), webResourceRequest)
+        if (toProxy(webResourceRequest)) {
+            return getHttpResource(webResourceRequest!!)
         }
         return null
     }
 
-    private fun isHttpUrl(url: Uri): Boolean {
-        val scheme = url.scheme
-        log("url: $url")
-        log("scheme: $scheme")
-        if (scheme == "http" || scheme == "https") {
-            return true
+    private fun toProxy(webResourceRequest: WebResourceRequest?): Boolean {
+        if (webResourceRequest == null || webResourceRequest.isForMainFrame) {
+            return false
+        }
+        val url = webResourceRequest.url ?: return false
+        if (url.scheme == "https" || url.scheme == "http") {
+            val urlString = url.toString()
+            if (urlString.endsWith(".js", true) ||
+                urlString.endsWith(".css", true) ||
+                urlString.endsWith(".jpg", true) ||
+                urlString.endsWith(".png", true) ||
+                urlString.endsWith(".webp", true)
+            ) {
+                return true
+            }
         }
         return false
     }
 
     private fun getHttpResource(
-        url: String,
         webResourceRequest: WebResourceRequest
     ): WebResourceResponse? {
+        val url = webResourceRequest.url.toString()
         val method = webResourceRequest.method
         if (method.equals("GET", true)) {
             try {
