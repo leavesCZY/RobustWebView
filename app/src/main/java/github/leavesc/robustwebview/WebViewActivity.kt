@@ -19,8 +19,8 @@ import github.leavesc.robustwebview.utils.showToast
  */
 class WebViewActivity : AppCompatActivity() {
 
-    private val rootLayout by lazy {
-        findViewById<ViewGroup>(R.id.rootLayout)
+    private val webViewContainer by lazy {
+        findViewById<ViewGroup>(R.id.webViewContainer)
     }
 
     private val tvTitle by lazy {
@@ -31,12 +31,12 @@ class WebViewActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvProgress)
     }
 
-    private val url1 =
+    private val url1 = "https://juejin.cn/user/923245496518439/posts"
+
+    private val url2 = "https://www.bilibili.com/"
+
+    private val url3 =
         "https://p26-passport.byteacctimg.com/img/user-avatar/6019f80db5be42d33c31c98adaf3fa8c~300x300.image"
-
-    private val url2 = "https://juejin.cn/user/923245496518439/posts"
-
-    private val url3 = "https://www.bilibili.com/"
 
     private lateinit var webView: RobustWebView
 
@@ -59,8 +59,11 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         webView = WebViewCacheHolder.acquireWebViewInternal(this)
         webView.webViewListener = webViewListener
-        val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
-        rootLayout.addView(webView, layoutParams)
+        val layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        webViewContainer.addView(webView, layoutParams)
         findViewById<View>(R.id.tvBack).setOnClickListener {
             onBackPressed()
         }
@@ -71,7 +74,7 @@ class WebViewActivity : AppCompatActivity() {
             webView.loadUrl(url2)
         }
         findViewById<View>(R.id.btnOpenUrl3).setOnClickListener {
-            webView.loadUrl(url3)
+            webView.toLoadUrl(url3, "")
         }
         findViewById<View>(R.id.btnReload).setOnClickListener {
             webView.reload()

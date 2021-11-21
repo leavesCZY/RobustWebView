@@ -188,7 +188,7 @@ class RobustWebView(context: Context, attributeSet: AttributeSet? = null) :
 
         settings.setSupportZoom(false)
         settings.builtInZoomControls = false
-//        settings.displayZoomControls = false
+        settings.displayZoomControls = false
 
         settings.allowFileAccess = true
         settings.allowContentAccess = true

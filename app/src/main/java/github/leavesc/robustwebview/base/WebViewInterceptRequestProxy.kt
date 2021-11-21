@@ -55,6 +55,9 @@ object WebViewInterceptRequestProxy {
             return false
         }
         val url = webResourceRequest.url ?: return false
+        if (!webResourceRequest.method.equals("GET", true)) {
+            return false
+        }
         if (url.scheme == "https" || url.scheme == "http") {
             val urlString = url.toString()
             if (urlString.endsWith(".js", true) ||
@@ -72,58 +75,55 @@ object WebViewInterceptRequestProxy {
     private fun getHttpResource(
         webResourceRequest: WebResourceRequest
     ): WebResourceResponse? {
-        val url = webResourceRequest.url.toString()
-        val method = webResourceRequest.method
-        if (method.equals("GET", true)) {
-            try {
-                val requestBuilder =
-                    Request.Builder().url(url).method(webResourceRequest.method, null)
-                val requestHeaders = webResourceRequest.requestHeaders
-                if (!requestHeaders.isNullOrEmpty()) {
-                    var requestHeadersLog = ""
-                    requestHeaders.forEach {
-                        requestBuilder.addHeader(it.key, it.value)
-                        requestHeadersLog = it.key + " : " + it.value + "\n" + requestHeadersLog
-                    }
-                    log("requestHeaders: $requestHeadersLog")
+        try {
+            val url = webResourceRequest.url.path ?: ""
+            val requestBuilder =
+                Request.Builder().url(url).method(webResourceRequest.method, null)
+            val requestHeaders = webResourceRequest.requestHeaders
+            if (!requestHeaders.isNullOrEmpty()) {
+                var requestHeadersLog = ""
+                requestHeaders.forEach {
+                    requestBuilder.addHeader(it.key, it.value)
+                    requestHeadersLog = it.key + " : " + it.value + "\n" + requestHeadersLog
                 }
-                val response = okHttpClient.newCall(requestBuilder.build())
-                    .execute()
-                val body = response.body
-                if (body != null) {
-                    val mimeType = response.header(
-                        "content-type", body.contentType()?.type
-                    ).apply {
-                        log(this)
-                    }
-                    val encoding = response.header(
-                        "content-encoding",
-                        "utf-8"
-                    ).apply {
-                        log(this)
-                    }
-                    val responseHeaders = mutableMapOf<String, String>()
-                    var responseHeadersLog = ""
-                    for (header in response.headers) {
-                        responseHeaders[header.first] = header.second
-                        responseHeadersLog =
-                            header.first + " : " + header.second + "\n" + responseHeadersLog
-                    }
-                    log("responseHeadersLog: $responseHeadersLog")
-                    var message = response.message
-                    val code = response.code
-                    if (code == 200 && message.isBlank()) {
-                        message = "OK"
-                    }
-                    val resourceResponse =
-                        WebResourceResponse(mimeType, encoding, body.byteStream())
-                    resourceResponse.responseHeaders = responseHeaders
-                    resourceResponse.setStatusCodeAndReasonPhrase(code, message)
-                    return resourceResponse
-                }
-            } catch (e: Throwable) {
-                log("Throwable: $e")
+                log("requestHeaders: $requestHeadersLog")
             }
+            val response = okHttpClient.newCall(requestBuilder.build())
+                .execute()
+            val body = response.body
+            if (body != null) {
+                val mimeType = response.header(
+                    "content-type", body.contentType()?.type
+                ).apply {
+                    log(this)
+                }
+                val encoding = response.header(
+                    "content-encoding",
+                    "utf-8"
+                ).apply {
+                    log(this)
+                }
+                val responseHeaders = mutableMapOf<String, String>()
+                var responseHeadersLog = ""
+                for (header in response.headers) {
+                    responseHeaders[header.first] = header.second
+                    responseHeadersLog =
+                        header.first + " : " + header.second + "\n" + responseHeadersLog
+                }
+                log("responseHeadersLog: $responseHeadersLog")
+                var message = response.message
+                val code = response.code
+                if (code == 200 && message.isBlank()) {
+                    message = "OK"
+                }
+                val resourceResponse =
+                    WebResourceResponse(mimeType, encoding, body.byteStream())
+                resourceResponse.responseHeaders = responseHeaders
+                resourceResponse.setStatusCodeAndReasonPhrase(code, message)
+                return resourceResponse
+            }
+        } catch (e: Throwable) {
+            log("Throwable: $e")
         }
         return null
     }

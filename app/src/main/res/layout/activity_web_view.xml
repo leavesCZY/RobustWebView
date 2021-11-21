@@ -4,136 +4,148 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnOpenUrl1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
             android:text="打开外链-1"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnOpenUrl2"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
             android:text="打开外链-2"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnOpenUrl3"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
             android:text="打开外链-3"
             android:textSize="12sp" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btnReload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="Reload"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/btnOpenHtml"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="打开本地 Html"
-        android:textSize="12sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnOpenHtml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="打开本地 Html"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnCallJsByAndroid"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
             android:text="callJsByAndroid"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnShowToastByAndroid"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
             android:text="showToastByAndroid"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnCallJsPrompt"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
             android:text="callJsPrompt"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnReload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="Reload"
-        android:textAllCaps="false"
-        android:textSize="12sp" />
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:id="@+id/webViewContainer"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvBack"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="back"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            tools:text="Android WebView H5 秒开" />
-
-        <TextView
-            android:id="@+id/tvProgress"
-            android:layout_width="40dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            tools:text="100" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="back"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="Android WebView H5 秒开" />
+
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="100" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
