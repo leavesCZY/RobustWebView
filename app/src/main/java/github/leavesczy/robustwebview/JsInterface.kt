@@ -1,14 +1,14 @@
-package github.leavesc.robustwebview
+package github.leavesczy.robustwebview
 
 import android.webkit.JavascriptInterface
-import github.leavesc.robustwebview.utils.log
-import github.leavesc.robustwebview.utils.showToast
+import github.leavesczy.robustwebview.utils.log
+import github.leavesczy.robustwebview.utils.showToast
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/9/21 15:08
  * @Desc:
- * @Github：https://github.com/leavesC
+ * @Github：https://github.com/leavesCZY
  */
 class JsInterface {
 

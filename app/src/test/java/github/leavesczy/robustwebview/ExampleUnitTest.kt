@@ -1,4 +1,4 @@
-package github.leavesc.robustwebview
+package github.leavesczy.robustwebview
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

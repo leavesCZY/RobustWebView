@@ -1,14 +1,14 @@
-package github.leavesc.robustwebview
+package github.leavesczy.robustwebview
 
 import android.app.Application
-import github.leavesc.robustwebview.base.WebViewInitTask
-import github.leavesc.robustwebview.utils.ContextHolder
+import github.leavesczy.robustwebview.base.WebViewInitTask
+import github.leavesczy.robustwebview.utils.ContextHolder
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/9/12 22:22
  * @Desc:
- * @Github：https://github.com/leavesC
+ * @Github：https://github.com/leavesCZY
  */
 class MainApplication : Application() {
 

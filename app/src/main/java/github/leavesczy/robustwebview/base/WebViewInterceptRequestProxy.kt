@@ -1,18 +1,18 @@
-package github.leavesc.robustwebview.base
+package github.leavesczy.robustwebview.base
 
 import android.app.Application
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse
-import github.leavesc.robustwebview.utils.log
+import github.leavesczy.robustwebview.utils.log
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/10/4 18:56
  * @Desc:
  * @公众号：字节数组

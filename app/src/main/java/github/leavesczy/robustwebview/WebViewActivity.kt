@@ -1,4 +1,4 @@
-package github.leavesc.robustwebview
+package github.leavesczy.robustwebview
 
 import android.os.Bundle
 import android.view.View
@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import github.leavesc.robustwebview.base.RobustWebView
-import github.leavesc.robustwebview.base.WebViewCacheHolder
-import github.leavesc.robustwebview.base.WebViewListener
-import github.leavesc.robustwebview.utils.showToast
+import github.leavesczy.robustwebview.base.RobustWebView
+import github.leavesczy.robustwebview.base.WebViewCacheHolder
+import github.leavesczy.robustwebview.base.WebViewListener
+import github.leavesczy.robustwebview.utils.showToast
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/10/1 23:08
  * @Desc:
- * @Github：https://github.com/leavesC
+ * @Github：https://github.com/leavesCZY
  */
 class WebViewActivity : AppCompatActivity() {
 

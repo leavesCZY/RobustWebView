@@ -6,7 +6,7 @@ plugins {
 android {
     compileSdk 31
     defaultConfig {
-        applicationId "github.leavesc.robustwebview"
+        applicationId "github.leavesczy.robustwebview"
         minSdk 21
         targetSdk 30
         versionCode 1
@@ -32,12 +32,12 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     debugImplementation 'com.github.chuckerteam.chucker:library:3.5.2'
     releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
-    implementation 'com.tencent.tbs:tbssdk:44115'
+    implementation 'com.tencent.tbs:tbssdk:44136'
 }

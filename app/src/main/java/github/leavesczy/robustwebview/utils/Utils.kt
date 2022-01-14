@@ -1,4 +1,4 @@
-package github.leavesc.robustwebview.utils
+package github.leavesczy.robustwebview.utils
 
 import android.os.Build
 import android.util.Log
@@ -8,10 +8,10 @@ import android.widget.Toast
 import java.lang.reflect.Method
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/9/20 0:11
  * @Desc:
- * @Github：https://github.com/leavesC
+ * @Github：https://github.com/leavesCZY
  */
 fun log(log: Any?) {
     Log.e("RobustWebView-" + Thread.currentThread().name, log.toString())

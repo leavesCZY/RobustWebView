@@ -1,17 +1,17 @@
-package github.leavesc.robustwebview.base
+package github.leavesczy.robustwebview.base
 
 import android.app.Application
 import android.content.Context
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
-import github.leavesc.robustwebview.utils.log
-import github.leavesc.robustwebview.utils.showToast
+import github.leavesczy.robustwebview.utils.log
+import github.leavesczy.robustwebview.utils.showToast
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/9/20 23:47
  * @Desc:
- * @Github：https://github.com/leavesC
+ * @Github：https://github.com/leavesCZY
  */
 object WebViewInitTask {
 

@@ -1,4 +1,4 @@
-package github.leavesc.robustwebview.base
+package github.leavesczy.robustwebview.base
 
 import android.content.Context
 import android.content.MutableContextWrapper
@@ -9,15 +9,15 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.tencent.smtt.export.external.interfaces.*
 import com.tencent.smtt.sdk.*
-import github.leavesc.robustwebview.JsInterface
-import github.leavesc.robustwebview.utils.log
+import github.leavesczy.robustwebview.JsInterface
+import github.leavesczy.robustwebview.utils.log
 import java.io.File
 
 /**
- * @Author: leavesC
+ * @Author: leavesCZY
  * @Date: 2021/9/20 22:45
  * @Desc:
- * @Github：https://github.com/leavesC
+ * @Github：https://github.com/leavesCZY
  */
 interface WebViewListener {
 
@@ -178,7 +178,7 @@ class RobustWebView(context: Context, attributeSet: AttributeSet? = null) :
     private fun initWebViewSettings(webView: WebView) {
         val settings = webView.settings
 
-//        settings.userAgentString = "android-leavesC"
+//        settings.userAgentString = "android-leavesCZY"
 
         settings.javaScriptEnabled = true
         settings.pluginsEnabled = true
