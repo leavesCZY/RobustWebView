@@ -6,10 +6,9 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse
 import github.leavesczy.robustwebview.utils.log
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 /**
  * @Author: leavesCZY
@@ -29,14 +28,30 @@ object WebViewInterceptRequestProxy {
         OkHttpClient.Builder().cache(Cache(webViewResourceCacheDir, 100L * 1024 * 1024))
             .followRedirects(false)
             .followSslRedirects(false)
-            .addNetworkInterceptor(
-                ChuckerInterceptor.Builder(application)
-                    .collector(ChuckerCollector(application))
-                    .maxContentLength(250000L)
-                    .alwaysReadResponseBody(true)
-                    .build()
-            )
+            .addNetworkInterceptor(getChuckerInterceptor(application = application))
+            .addNetworkInterceptor(getWebViewCacheInterceptor())
             .build()
+    }
+
+    private fun getChuckerInterceptor(application: Application): Interceptor {
+        return ChuckerInterceptor.Builder(application)
+            .collector(ChuckerCollector(application))
+            .maxContentLength(250000L)
+            .alwaysReadResponseBody(true)
+            .build()
+    }
+
+    private fun getWebViewCacheInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request()
+            val originResponse = chain.proceed(request)
+            return@Interceptor originResponse
+                .newBuilder()
+                .removeHeader("pragma")
+                .removeHeader("Cache-Control")
+                .header("Cache-Control", "max-age=" + (360L * 24 * 60 * 60))
+                .build()
+        }
     }
 
     fun init(application: Application) {
@@ -72,48 +87,43 @@ object WebViewInterceptRequestProxy {
         return false
     }
 
-    private fun getHttpResource(
-        webResourceRequest: WebResourceRequest
-    ): WebResourceResponse? {
+    private fun getHttpResource(webResourceRequest: WebResourceRequest): WebResourceResponse? {
         try {
-            val url = webResourceRequest.url.path ?: ""
+            val url = webResourceRequest.url.toString()
             val requestBuilder =
                 Request.Builder().url(url).method(webResourceRequest.method, null)
             val requestHeaders = webResourceRequest.requestHeaders
             if (!requestHeaders.isNullOrEmpty()) {
-                var requestHeadersLog = ""
                 requestHeaders.forEach {
                     requestBuilder.addHeader(it.key, it.value)
-                    requestHeadersLog = it.key + " : " + it.value + "\n" + requestHeadersLog
                 }
-                log("requestHeaders: $requestHeadersLog")
             }
-            val response = okHttpClient.newCall(requestBuilder.build())
-                .execute()
+
+            val cacheBuilder = CacheControl.Builder()
+            cacheBuilder.maxAge(360, TimeUnit.DAYS)
+            val cacheControl: CacheControl = cacheBuilder.build()
+            requestBuilder.cacheControl(cacheControl)
+
+            val response = okHttpClient.newCall(requestBuilder.build()).execute()
+            val code = response.code
+            if (code != 200) {
+                return null
+            }
             val body = response.body
             if (body != null) {
                 val mimeType = response.header(
                     "content-type", body.contentType()?.type
-                ).apply {
-                    log(this)
-                }
+                )
                 val encoding = response.header(
                     "content-encoding",
                     "utf-8"
-                ).apply {
-                    log(this)
-                }
+                )
                 val responseHeaders = mutableMapOf<String, String>()
-                var responseHeadersLog = ""
                 for (header in response.headers) {
                     responseHeaders[header.first] = header.second
-                    responseHeadersLog =
-                        header.first + " : " + header.second + "\n" + responseHeadersLog
                 }
-                log("responseHeadersLog: $responseHeadersLog")
                 var message = response.message
-                val code = response.code
-                if (code == 200 && message.isBlank()) {
+                if (message.isBlank()) {
                     message = "OK"
                 }
                 val resourceResponse =
@@ -123,7 +133,7 @@ object WebViewInterceptRequestProxy {
                 return resourceResponse
             }
         } catch (e: Throwable) {
-            log("Throwable: $e")
+            e.printStackTrace()
         }
         return null
     }
