@@ -5,7 +5,6 @@ import android.content.Context
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
 import github.leavesczy.robustwebview.utils.log
-import github.leavesczy.robustwebview.utils.showToast
 
 /**
  * @Author: leavesCZY
@@ -28,17 +27,16 @@ object WebViewInitTask {
         map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
         map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
         QbSdk.initTbsSettings(map)
-        val cb: QbSdk.PreInitCallback = object : QbSdk.PreInitCallback {
-            override fun onViewInitFinished(arg0: Boolean) {
-                showToast("onViewInitFinished: $arg0")
-                log("onViewInitFinished: $arg0")
+        val callback = object : QbSdk.PreInitCallback {
+            override fun onViewInitFinished(isX5Core: Boolean) {
+                log("onViewInitFinished: $isX5Core")
             }
 
             override fun onCoreInitFinished() {
                 log("onCoreInitFinished")
             }
         }
-        QbSdk.initX5Environment(context, cb)
+        QbSdk.initX5Environment(context, callback)
     }
 
 }

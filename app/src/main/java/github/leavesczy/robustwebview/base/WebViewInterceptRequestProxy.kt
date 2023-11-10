@@ -16,7 +16,7 @@ import java.io.File
  * @Author: leavesCZY
  * @Date: 2021/10/4 18:56
  * @Desc:
- * @公众号：字节数组
+ * @Github：https://github.com/leavesCZY
  */
 object WebViewInterceptRequestProxy {
 
@@ -30,7 +30,7 @@ object WebViewInterceptRequestProxy {
         OkHttpClient.Builder().cache(Cache(webViewResourceCacheDir, 600L * 1024 * 1024))
             .followRedirects(false)
             .followSslRedirects(false)
-            .addNetworkInterceptor(getChuckerInterceptor(application = application))
+            .addInterceptor(getChuckerInterceptor(application = application))
             .addNetworkInterceptor(getWebViewCacheInterceptor())
             .build()
     }
@@ -80,7 +80,8 @@ object WebViewInterceptRequestProxy {
                 urlString.endsWith(".css", true) ||
                 urlString.endsWith(".jpg", true) ||
                 urlString.endsWith(".png", true) ||
-                urlString.endsWith(".webp", true)
+                urlString.endsWith(".webp", true)||
+                urlString.endsWith(".awebp", true)
             ) {
                 return true
             }
@@ -91,43 +92,35 @@ object WebViewInterceptRequestProxy {
     private fun getHttpResource(webResourceRequest: WebResourceRequest): WebResourceResponse? {
         try {
             val url = webResourceRequest.url.toString()
-            val requestBuilder =
-                Request.Builder().url(url).method(webResourceRequest.method, null)
-            val requestHeaders = webResourceRequest.requestHeaders
-            if (!requestHeaders.isNullOrEmpty()) {
-                requestHeaders.forEach {
-                    requestBuilder.addHeader(it.key, it.value)
-                }
+            val requestBuilder = Request
+                .Builder()
+                .url(url)
+                .method(webResourceRequest.method, null)
+            webResourceRequest.requestHeaders?.forEach {
+                requestBuilder.addHeader(it.key, it.value)
             }
-
-            val response = okHttpClient.newCall(requestBuilder.build()).execute()
+            val response = okHttpClient
+                .newCall(requestBuilder.build())
+                .execute()
             val code = response.code
             if (code != 200) {
                 return null
             }
             val body = response.body
-            if (body != null) {
-                val mimeType = response.header(
-                    "content-type", body.contentType()?.type
-                )
-                val encoding = response.header(
-                    "content-encoding",
-                    "utf-8"
-                )
-                val responseHeaders = mutableMapOf<String, String>()
-                for (header in response.headers) {
-                    responseHeaders[header.first] = header.second
-                }
-                var message = response.message
-                if (message.isBlank()) {
-                    message = "OK"
-                }
-                val resourceResponse =
-                    WebResourceResponse(mimeType, encoding, body.byteStream())
-                resourceResponse.responseHeaders = responseHeaders
-                resourceResponse.setStatusCodeAndReasonPhrase(code, message)
-                return resourceResponse
+            val mimeType = response.header("content-type", body.contentType()?.type)
+            val encoding = response.header("content-encoding", "utf-8")
+            val responseHeaders = mutableMapOf<String, String>()
+            for (header in response.headers) {
+                responseHeaders[header.first] = header.second
             }
+            var message = response.message
+            if (message.isBlank()) {
+                message = "OK"
+            }
+            val resourceResponse = WebResourceResponse(mimeType, encoding, body.byteStream())
+            resourceResponse.responseHeaders = responseHeaders
+            resourceResponse.setStatusCodeAndReasonPhrase(code, message)
+            return resourceResponse
         } catch (e: Throwable) {
             e.printStackTrace()
         }

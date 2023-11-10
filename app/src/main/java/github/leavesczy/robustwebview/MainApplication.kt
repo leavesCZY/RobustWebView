@@ -14,8 +14,8 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ContextHolder.application = this
-        WebViewInitTask.init(this)
+        ContextHolder.init(application = this)
+        WebViewInitTask.init(application = this)
     }
 
 }

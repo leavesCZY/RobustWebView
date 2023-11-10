@@ -21,7 +21,6 @@ fun showToast(msg: String) {
     Toast.makeText(ContextHolder.application, msg, Toast.LENGTH_SHORT).show()
 }
 
-
 /**
  * 让 activity transition 动画过程中可以正常渲染页面
  */

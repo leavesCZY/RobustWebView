@@ -1,11 +1,16 @@
 package github.leavesczy.robustwebview
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import github.leavesczy.robustwebview.base.RobustWebView
 import github.leavesczy.robustwebview.base.WebViewCacheHolder
 import github.leavesczy.robustwebview.base.WebViewListener
@@ -17,7 +22,7 @@ import github.leavesczy.robustwebview.utils.showToast
  * @Desc:
  * @Github：https://github.com/leavesCZY
  */
-class WebViewActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val webViewContainer by lazy {
         findViewById<ViewGroup>(R.id.webViewContainer)
@@ -31,7 +36,13 @@ class WebViewActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvProgress)
     }
 
-    private val url1 = "https://juejin.cn/user/923245496518439/posts"
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        checkNotificationPermission()
+    }
+
+    private val url1 = "https://juejin.cn/post/7016883220025180191"
 
     private val url2 = "https://www.bilibili.com/"
 
@@ -56,7 +67,7 @@ class WebViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web_view)
+        setContentView(R.layout.activity_main)
         webView = WebViewCacheHolder.acquireWebViewInternal(this)
         webView.webViewListener = webViewListener
         val layoutParams = LinearLayout.LayoutParams(
@@ -65,7 +76,7 @@ class WebViewActivity : AppCompatActivity() {
         )
         webViewContainer.addView(webView, layoutParams)
         findViewById<View>(R.id.tvBack).setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
         findViewById<View>(R.id.btnOpenUrl1).setOnClickListener {
             webView.loadUrl(url1)
@@ -97,12 +108,34 @@ class WebViewActivity : AppCompatActivity() {
         findViewById<View>(R.id.btnCallJsPrompt).setOnClickListener {
             webView.loadUrl("javascript:callJsPrompt()")
         }
+        onBackPressedObserver()
+        requestNotificationPermission()
     }
 
-    override fun onBackPressed() {
-        if (webView.toGoBack()) {
-            super.onBackPressed()
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            checkNotificationPermission()
         }
+    }
+
+    private fun checkNotificationPermission() {
+        if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+            showToast("请开启消息通知权限，以便查看网络请求")
+        }
+    }
+
+    private fun onBackPressedObserver() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (webView.canGoBack()) {
+                    webView.toGoBack()
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

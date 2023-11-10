@@ -7,8 +7,17 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.tencent.smtt.export.external.interfaces.*
-import com.tencent.smtt.sdk.*
+import com.tencent.smtt.export.external.interfaces.JsPromptResult
+import com.tencent.smtt.export.external.interfaces.JsResult
+import com.tencent.smtt.export.external.interfaces.SslError
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse
+import com.tencent.smtt.sdk.CookieManager
+import com.tencent.smtt.sdk.WebChromeClient
+import com.tencent.smtt.sdk.WebSettings
+import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
 import github.leavesczy.robustwebview.JsInterface
 import github.leavesczy.robustwebview.utils.log
 import java.io.File
@@ -177,33 +186,24 @@ class RobustWebView(context: Context, attributeSet: AttributeSet? = null) :
 
     private fun initWebViewSettings(webView: WebView) {
         val settings = webView.settings
-
 //        settings.userAgentString = "android-leavesCZY"
-
         settings.javaScriptEnabled = true
         settings.pluginsEnabled = true
-
         settings.useWideViewPort = true
         settings.loadWithOverviewMode = true
-
         settings.setSupportZoom(false)
         settings.builtInZoomControls = false
         settings.displayZoomControls = false
-
         settings.allowFileAccess = true
         settings.allowContentAccess = true
-
         settings.loadsImagesAutomatically = true
-
         settings.safeBrowsingEnabled = false
-
         settings.domStorageEnabled = true
         settings.databaseEnabled = true
         settings.databasePath = databaseCachePath
         settings.setAppCacheEnabled(true)
         settings.setAppCachePath(appCachePath)
         settings.cacheMode = WebSettings.LOAD_DEFAULT
-
         settings.javaScriptCanOpenWindowsAutomatically = true
         settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
     }
