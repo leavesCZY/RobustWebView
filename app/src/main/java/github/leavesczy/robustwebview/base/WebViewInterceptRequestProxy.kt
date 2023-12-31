@@ -59,15 +59,15 @@ object WebViewInterceptRequestProxy {
         this.application = application
     }
 
-    fun shouldInterceptRequest(webResourceRequest: WebResourceRequest?): WebResourceResponse? {
+    fun shouldInterceptRequest(webResourceRequest: WebResourceRequest): WebResourceResponse? {
         if (toProxy(webResourceRequest)) {
-            return getHttpResource(webResourceRequest!!)
+            return getHttpResource(webResourceRequest)
         }
         return null
     }
 
-    private fun toProxy(webResourceRequest: WebResourceRequest?): Boolean {
-        if (webResourceRequest == null || webResourceRequest.isForMainFrame) {
+    private fun toProxy(webResourceRequest: WebResourceRequest): Boolean {
+        if (webResourceRequest.isForMainFrame) {
             return false
         }
         val url = webResourceRequest.url ?: return false
@@ -80,7 +80,7 @@ object WebViewInterceptRequestProxy {
                 urlString.endsWith(".css", true) ||
                 urlString.endsWith(".jpg", true) ||
                 urlString.endsWith(".png", true) ||
-                urlString.endsWith(".webp", true)||
+                urlString.endsWith(".webp", true) ||
                 urlString.endsWith(".awebp", true)
             ) {
                 return true
@@ -102,16 +102,17 @@ object WebViewInterceptRequestProxy {
             val response = okHttpClient
                 .newCall(requestBuilder.build())
                 .execute()
+            val body = response.body
             val code = response.code
-            if (code != 200) {
+            if (body == null || code != 200) {
                 return null
             }
-            val body = response.body
             val mimeType = response.header("content-type", body.contentType()?.type)
             val encoding = response.header("content-encoding", "utf-8")
-            val responseHeaders = mutableMapOf<String, String>()
-            for (header in response.headers) {
-                responseHeaders[header.first] = header.second
+            val responseHeaders = buildMap {
+                response.headers.map {
+                    put(it.first, it.second)
+                }
             }
             var message = response.message
             if (message.isBlank()) {

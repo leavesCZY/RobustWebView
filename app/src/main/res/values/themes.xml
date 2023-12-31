@@ -1,9 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.RobustWebView" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@android:color/white</item>
+    <style name="Theme.RobustWebView" parent="Theme.Material3.Light">
+        <item name="colorPrimary">@color/color_top_bar</item>
+        <item name="colorOnSurface">@android:color/white</item>
+        <item name="toolbarStyle">@style/Theme.RobustWebView.Toolbar</item>
         <item name="android:navigationBarColor">@android:color/white</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
+
+    <style name="Theme.RobustWebView.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/color_top_bar</item>
+    </style>
+
 </resources>
