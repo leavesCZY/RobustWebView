@@ -8,21 +8,17 @@
         .myButton { background-color:#44c767; border-radius:42px; display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:28px; padding:32px 76px; text-decoration:none; } .myButton:hover { background-color:#5cbf2a; } .myButton:active { position:relative; top:1px; }
 
 
-
-
-
     </style>
     <script>
-      function callJsByAndroid(message) {
-        return "Android 调用了 JS 的 callJsByAndroid 方法" + " - " + message;
-      }
-      function showToastByAndroid() {
-        android.showToastByAndroid("JS 调用 Android 的 showToast 方法");
-      }
-      function callJsPrompt() {
-        prompt("callJsPrompt");
-      }
-
+        function callJsByAndroid(message) {
+          return "Android 调用了 JS 的 callJsByAndroid 方法" + " - " + message;
+        }
+        function showToastByAndroid() {
+          android.showToastByAndroid("JS 调用 Android 的 showToast 方法");
+        }
+        function callJsPrompt() {
+          prompt("callJsPrompt");
+        }
 
 
     </script>

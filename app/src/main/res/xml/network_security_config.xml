@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
+<network-security-config xmlns:tools="http://schemas.android.com/tools">
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates
@@ -7,7 +7,8 @@
                 src="system" />
             <certificates
                 overridePins="true"
-                src="user" />
+                src="user"
+                tools:ignore="AcceptsUserCertificates" />
         </trust-anchors>
     </base-config>
 </network-security-config>
