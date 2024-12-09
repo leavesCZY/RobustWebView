@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace = "github.leavesczy.robustwebview"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "github.leavesczy.robustwebview"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -24,23 +24,23 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    val chuckerVerion = "4.0.0"
-    debugImplementation("com.github.chuckerteam.chucker:library:${chuckerVerion}")
-    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:${chuckerVerion}")
+    val chuckerVersion = "4.0.0"
+    debugImplementation("com.github.chuckerteam.chucker:library:${chuckerVersion}")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:${chuckerVersion}")
     implementation("com.tencent.tbs:tbssdk:44286")
 }

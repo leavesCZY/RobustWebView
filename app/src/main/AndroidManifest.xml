@@ -18,7 +18,6 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.RobustWebView"
         tools:ignore="DataExtractionRules,UnusedAttribute">
-
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

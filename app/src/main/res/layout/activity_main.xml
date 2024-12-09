@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:baselineAligned="false"
+    android:fitsSystemWindows="true"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -102,7 +103,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textSize="20sp"
-                tools:text="Android WebView H5 秒开" />
+                tools:text="Android WebView H5 秒开方案总结" />
 
             <TextView
                 android:id="@+id/tvProgress"
